@@ -1,23 +1,51 @@
 import { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Pressable, FlatList } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '../../src/components/AppHeader';
+import { View, Text, TextInput, FlatList } from 'react-native';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon } from '../../src/components/Icon';
+import { FilterChips } from '../../src/components/FilterChips';
+import { StickyHeaderBlur } from '../../src/components/StickyHeaderBlur';
 import { JobCard } from '../../src/components/cards';
+import { RevealItem } from '../../src/components/motion';
 import { jobs, jobTypes } from '../../src/data';
 import { C } from '../../src/theme';
 
 export default function JobBoardScreen() {
-  const insets = useSafeAreaInsets();
   const [active, setActive] = useState('Semua');
+  const [headerH, setHeaderH] = useState(200); // estimasi awal; dikoreksi onLayout
   const filters = ['Semua', ...jobTypes];
   const list = active === 'Semua' ? jobs : jobs.filter((j) => j.type === active);
 
   return (
-    <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
-      <AppHeader title="Lowongan Kerja" />
-      <View className="gap-3 px-md pt-md">
+    <View className="flex-1 bg-surface-container-low">
+      {/* Sheet galeri: sudut atas membulat, latar surface; konten menggulir di
+          atasnya & di belakang header blur */}
+      <View
+        pointerEvents="none"
+        className="absolute left-0 right-0 bg-surface"
+        style={{ top: headerH, bottom: 0, borderTopLeftRadius: 28, borderTopRightRadius: 28 }}
+      />
+      <FlatList
+        data={list}
+        keyExtractor={(j) => j.id}
+        renderItem={({ item, index }) => (
+          <RevealItem index={index}>
+            <JobCard job={item} />
+          </RevealItem>
+        )}
+        contentContainerStyle={{
+          paddingTop: headerH + 24,
+          paddingHorizontal: 16,
+          gap: 12,
+          paddingBottom: TAB_BAR_SPACE,
+        }}
+        ListHeaderComponent={
+          <Text className="pb-1 text-body-md text-on-surface-variant">
+            Menampilkan <Text className="font-semibold text-on-surface">{list.length}</Text> lowongan
+          </Text>
+        }
+        showsVerticalScrollIndicator={false}
+      />
+      <StickyHeaderBlur title="Lowongan Kerja" onHeight={setHeaderH}>
         <View className="flex-row items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-md">
           <Icon name="search" size={20} color={C.onSurfaceVariant} />
           <TextInput
@@ -26,30 +54,8 @@ export default function JobBoardScreen() {
             className="flex-1 py-3 text-body-md text-on-surface"
           />
         </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
-          {filters.map((f) => (
-            <Pressable
-              key={f}
-              onPress={() => setActive(f)}
-              className={`rounded-full px-md py-2 active:opacity-70 ${active === f ? 'bg-primary' : 'border border-outline-variant bg-surface-container-lowest'}`}
-            >
-              <Text className={`text-label-md font-medium ${active === f ? 'text-on-primary' : 'text-on-surface-variant'}`}>{f}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-      </View>
-      <FlatList
-        data={list}
-        keyExtractor={(j) => j.id}
-        renderItem={({ item }) => <JobCard job={item} />}
-        contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }}
-        ListHeaderComponent={
-          <Text className="pb-1 text-body-md text-on-surface-variant">
-            Menampilkan <Text className="font-semibold text-on-surface">{list.length}</Text> lowongan
-          </Text>
-        }
-        showsVerticalScrollIndicator={false}
-      />
+        <FilterChips options={filters} value={active} onChange={setActive} />
+      </StickyHeaderBlur>
     </View>
   );
 }

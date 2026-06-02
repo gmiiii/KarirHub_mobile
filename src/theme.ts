@@ -20,6 +20,8 @@ export const C = {
   outlineVariant: colors['outline-variant'],
   tertiary: colors.tertiary,
   error: colors.error,
+  errorContainer: colors['error-container'],
+  onErrorContainer: colors['on-error-container'],
   warning: colors.warning,
   secondary: colors.secondary,
 };

@@ -1,9 +1,10 @@
 import { View, Text, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, Redirect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { Badge, AvatarInitial, Button } from '../../src/components/ui';
+import { useMode, roleMeta } from '../../src/mode';
 import { recruiterStats, applicants } from '../../src/data';
 import { C } from '../../src/theme';
 
@@ -12,9 +13,12 @@ const statusTone = { Baru: 'info', Review: 'warning', Shortlist: 'verified' } as
 export default function DashRekruter() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { role } = useMode();
+  // Hanya bisa diakses dalam mode rekruter; role lain dialihkan ke home-nya.
+  if (role !== 'rekruter') return <Redirect href={roleMeta[role].home as never} />;
   return (
     <View className="flex-1 bg-surface-container-low" style={{ paddingTop: insets.top }}>
-      <AppHeader title="Dashboard Rekruter" back />
+      <AppHeader title="Dashboard Rekruter" />
       <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
         <View className="flex-row flex-wrap" style={{ gap: 12 }}>
           {recruiterStats.map((s) => (
@@ -38,7 +42,7 @@ export default function DashRekruter() {
           ))}
         </View>
 
-        <Button label="Pasang lowongan baru" icon="add" fullWidth onPress={() => router.push('/(tabs)/lowongan')} />
+        <Button label="Cari talenta" icon="groups" fullWidth onPress={() => router.push('/talenta')} />
       </ScrollView>
     </View>
   );
