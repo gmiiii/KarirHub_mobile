@@ -1,8 +1,13 @@
-import { Tabs } from 'expo-router';
+import { Tabs, Redirect } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FloatingTabBar } from '../../src/components/FloatingTabBar';
+import { useMode, roleMeta } from '../../src/mode';
 
 export default function TabsLayout() {
+  const { role } = useMode();
+  // Tab kandidat hanya untuk mode "pencari". Role lain dialihkan ke home-nya —
+  // tiap role independen, hanya bisa dimasuki lewat ganti mode.
+  if (role !== 'pencari') return <Redirect href={roleMeta[role].home as never} />;
   return (
     <Tabs
       tabBar={(props) => <FloatingTabBar {...props} />}

@@ -5,14 +5,13 @@ import { AppHeader } from '../../src/components/AppHeader';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { AvatarInitial, VerifiedBadge, Badge, Button } from '../../src/components/ui';
+import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { C } from '../../src/theme';
 
 const menus: { icon: MaterialIconName; label: string; href: string }[] = [
   { icon: 'description', label: 'CV & Lamaran Saya', href: '/layanan' },
   { icon: 'bookmark', label: 'Lowongan Tersimpan', href: '/lowongan' },
   { icon: 'receipt-long', label: 'Riwayat Transaksi', href: '/transaksi' },
-  { icon: 'dashboard', label: 'Dashboard Rekruter', href: '/dashboard/rekruter' },
-  { icon: 'storefront', label: 'Dashboard Seller', href: '/dashboard/seller' },
   { icon: 'workspace-premium', label: 'Paket Langganan', href: '/langganan' },
 ];
 
@@ -24,8 +23,8 @@ export default function ProfilScreen() {
   return (
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader title="Profil" />
-      <ScrollView contentContainerStyle={{ paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
-        {/* Header profil */}
+      <RevealScrollView contentContainerStyle={{ paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
+        {/* Header profil — instan */}
         <View className="items-center gap-2 bg-primary-container px-lg pb-lg pt-lg">
           <AvatarInitial name="Rina Hapsari" className="h-20 w-20 border-4 border-surface" textClass="text-headline-md" />
           <View className="flex-row items-center gap-2">
@@ -41,7 +40,7 @@ export default function ProfilScreen() {
 
         <View className="gap-lg p-md">
           {/* Kelengkapan profil */}
-          <View className="rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
+          <Reveal className="rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
             <View className="flex-row items-center justify-between">
               <Text className="text-label-md font-semibold text-on-surface">Kelengkapan profil</Text>
               <Text className="text-label-md font-bold text-on-surface">80%</Text>
@@ -50,20 +49,20 @@ export default function ProfilScreen() {
               <View className="h-full rounded-full bg-tertiary" style={{ width: '80%' }} />
             </View>
             <Text className="mt-2 text-caption text-on-surface-variant">Lengkapi portofolio untuk mencapai 100%.</Text>
-          </View>
+          </Reveal>
 
           {/* Keahlian */}
-          <View className="gap-2">
+          <Reveal className="gap-2">
             <Text className="text-title-lg font-semibold text-on-surface">Keahlian</Text>
             <View className="flex-row flex-wrap gap-2">
               {skills.map((s) => (
                 <Badge key={s} label={s} tone="info" />
               ))}
             </View>
-          </View>
+          </Reveal>
 
           {/* Menu */}
-          <View className="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
+          <Reveal className="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
             {menus.map((m, i) => (
               <Pressable
                 key={m.label}
@@ -75,14 +74,20 @@ export default function ProfilScreen() {
                 <Icon name="chevron-right" size={22} color={C.onSurfaceVariant} />
               </Pressable>
             ))}
-          </View>
+          </Reveal>
 
-          <Button label="Edit profil" variant="secondary" icon="edit" fullWidth />
-          <Pressable className="items-center rounded-lg py-2 active:opacity-60">
-            <Text className="text-label-md font-semibold text-error">Keluar</Text>
-          </Pressable>
+          <Reveal className="gap-3">
+            <Button label="Edit profil" variant="secondary" icon="edit" fullWidth />
+            <Pressable
+              accessibilityRole="button"
+              className="h-12 flex-row items-center justify-center gap-2 rounded-lg border border-error/25 bg-error-container active:scale-[0.97] active:opacity-95"
+            >
+              <Icon name="logout" size={20} color={C.onErrorContainer} />
+              <Text className="text-label-md font-semibold text-on-error-container">Keluar</Text>
+            </Pressable>
+          </Reveal>
         </View>
-      </ScrollView>
+      </RevealScrollView>
     </View>
   );
 }

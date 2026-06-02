@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Badge, Placeholder, Button } from '../../src/components/ui';
+import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { incomingOrders, services, formatRupiah } from '../../src/data';
 import { Icon } from '../../src/components/Icon';
 import { C } from '../../src/theme';
@@ -28,7 +29,7 @@ export default function PesananScreen() {
           </Pressable>
         ))}
       </View>
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
+      <RevealScrollView contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
         {list.length === 0 ? (
           <View className="items-center gap-2 py-16">
             <View className="h-14 w-14 items-center justify-center rounded-full bg-surface-container-high">
@@ -41,7 +42,7 @@ export default function PesananScreen() {
           list.map((o) => {
             const thumb = services.find((s) => s.title.startsWith(o.service.split(' ')[0]))?.thumbColor ?? C.primary;
             return (
-              <View key={o.id} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-md">
+              <Reveal key={o.id} className="rounded-xl border border-outline-variant bg-surface-container-lowest p-md">
                 <View className="flex-row gap-md">
                   <Placeholder icon="brush" color={thumb} className="h-14 w-14" size={24} />
                   <View className="flex-1">
@@ -59,12 +60,12 @@ export default function PesananScreen() {
                     <Text className="text-label-md font-semibold text-primary">Lihat detail</Text>
                   </Pressable>
                 </View>
-              </View>
+              </Reveal>
             );
           })
         )}
         <Button label="Jelajahi jasa karir" variant="secondary" icon="storefront" onPress={() => router.push('/layanan')} fullWidth />
-      </ScrollView>
+      </RevealScrollView>
     </View>
   );
 }

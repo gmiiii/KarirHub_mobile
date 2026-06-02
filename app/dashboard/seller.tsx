@@ -1,9 +1,10 @@
 import { View, Text, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, Redirect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { Badge, Button } from '../../src/components/ui';
+import { useMode, roleMeta } from '../../src/mode';
 import { sellerStats, incomingOrders, formatRupiah } from '../../src/data';
 import { C } from '../../src/theme';
 
@@ -14,10 +15,13 @@ const days = ['Sn', 'Sl', 'Rb', 'Km', 'Jm', 'Sb', 'Mg'];
 export default function DashSeller() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { role } = useMode();
+  // Hanya bisa diakses dalam mode seller; role lain dialihkan ke home-nya.
+  if (role !== 'seller') return <Redirect href={roleMeta[role].home as never} />;
   const max = Math.max(...revenue);
   return (
     <View className="flex-1 bg-surface-container-low" style={{ paddingTop: insets.top }}>
-      <AppHeader title="Dashboard Seller" back />
+      <AppHeader title="Dashboard Seller" />
       <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: 24 }} showsVerticalScrollIndicator={false}>
         <View className="flex-row flex-wrap" style={{ gap: 12 }}>
           {sellerStats.map((s) => (
@@ -60,7 +64,7 @@ export default function DashSeller() {
           ))}
         </View>
 
-        <Button label="Kelola layanan" variant="secondary" icon="storefront" fullWidth onPress={() => router.push('/(tabs)/layanan')} />
+        <Button label="Lihat transaksi" variant="secondary" icon="receipt-long" fullWidth onPress={() => router.push('/transaksi')} />
       </ScrollView>
     </View>
   );

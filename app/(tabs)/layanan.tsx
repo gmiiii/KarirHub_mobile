@@ -1,52 +1,57 @@
 import { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Pressable, FlatList } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '../../src/components/AppHeader';
+import { View, TextInput, FlatList } from 'react-native';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon } from '../../src/components/Icon';
+import { FilterChips } from '../../src/components/FilterChips';
+import { StickyHeaderBlur } from '../../src/components/StickyHeaderBlur';
 import { ServiceCard } from '../../src/components/cards';
+import { RevealItem } from '../../src/components/motion';
 import { services, serviceCategories } from '../../src/data';
 import { C } from '../../src/theme';
 
 export default function LayananScreen() {
-  const insets = useSafeAreaInsets();
   const [active, setActive] = useState('Semua');
+  const [headerH, setHeaderH] = useState(200); // estimasi awal; dikoreksi onLayout
   const cats = ['Semua', ...serviceCategories.map((c) => c.label)];
   const list = active === 'Semua' ? services : services.filter((s) => s.category === active);
 
   return (
-    <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
-      <AppHeader title="Jasa Karir" />
-      <View className="gap-3 px-md pt-md">
-        <View className="flex-row items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-md">
-          <Icon name="search" size={20} color={C.onSurfaceVariant} />
-          <TextInput placeholder="Cari jasa, mis. review CV" placeholderTextColor={C.onSurfaceVariant} className="flex-1 py-3 text-body-md text-on-surface" />
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
-          {cats.map((c) => (
-            <Pressable
-              key={c}
-              onPress={() => setActive(c)}
-              className={`rounded-full px-md py-2 active:opacity-70 ${active === c ? 'bg-primary' : 'border border-outline-variant bg-surface-container-lowest'}`}
-            >
-              <Text className={`text-label-md font-medium ${active === c ? 'text-on-primary' : 'text-on-surface-variant'}`}>{c}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-      </View>
+    <View className="flex-1 bg-surface-container-low">
+      {/* Sheet galeri: sudut atas membulat, latar surface */}
+      <View
+        pointerEvents="none"
+        className="absolute left-0 right-0 bg-surface"
+        style={{ top: headerH, bottom: 0, borderTopLeftRadius: 28, borderTopRightRadius: 28 }}
+      />
       <FlatList
         data={list}
         keyExtractor={(s) => s.id}
         numColumns={2}
         columnWrapperStyle={{ gap: 12 }}
-        renderItem={({ item }) => (
-          <View className="flex-1">
+        renderItem={({ item, index }) => (
+          <RevealItem index={index} style={{ flex: 1 }}>
             <ServiceCard service={item} />
-          </View>
+          </RevealItem>
         )}
-        contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }}
+        contentContainerStyle={{
+          paddingTop: headerH + 24,
+          paddingHorizontal: 16,
+          gap: 12,
+          paddingBottom: TAB_BAR_SPACE,
+        }}
         showsVerticalScrollIndicator={false}
       />
+      <StickyHeaderBlur title="Jasa Karir" onHeight={setHeaderH}>
+        <View className="flex-row items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-md">
+          <Icon name="search" size={20} color={C.onSurfaceVariant} />
+          <TextInput
+            placeholder="Cari jasa, mis. review CV"
+            placeholderTextColor={C.onSurfaceVariant}
+            className="flex-1 py-3 text-body-md text-on-surface"
+          />
+        </View>
+        <FilterChips options={cats} value={active} onChange={setActive} />
+      </StickyHeaderBlur>
     </View>
   );
 }

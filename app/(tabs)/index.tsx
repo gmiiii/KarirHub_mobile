@@ -7,6 +7,7 @@ import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { ServiceCard } from '../../src/components/cards';
 import { JobCard } from '../../src/components/cards';
 import { Button } from '../../src/components/ui';
+import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { services, jobs } from '../../src/data';
 import { C } from '../../src/theme';
 
@@ -23,8 +24,8 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader brand />
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 24, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
-        {/* Hero card */}
+      <RevealScrollView contentContainerStyle={{ padding: 16, gap: 24, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
+        {/* Hero card — di atas lipatan, tampil instan */}
         <View className="overflow-hidden rounded-xl bg-primary p-lg">
           <Text className="max-w-[85%] text-headline-md font-bold text-on-primary">
             Satu platform untuk semua kebutuhan karirmu
@@ -41,7 +42,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Grid pintasan 2x2 */}
-        <View className="flex-row flex-wrap" style={{ gap: 12 }}>
+        <Reveal style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
           {shortcuts.map((s) => (
             <Pressable
               key={s.label}
@@ -55,10 +56,10 @@ export default function HomeScreen() {
               <Text className="text-label-md font-semibold text-on-surface">{s.label}</Text>
             </Pressable>
           ))}
-        </View>
+        </Reveal>
 
         {/* Jasa populer (scroll horizontal) */}
-        <View className="gap-md">
+        <Reveal style={{ gap: 16 }}>
           <View className="flex-row items-center justify-between">
             <Text className="text-title-lg font-semibold text-on-surface">Jasa populer</Text>
             <Pressable onPress={() => router.push('/layanan')} hitSlop={10} className="-mr-1 px-1 py-1 active:opacity-60">
@@ -74,10 +75,10 @@ export default function HomeScreen() {
               <ServiceCard key={s.id} service={s} width={240} />
             ))}
           </ScrollView>
-        </View>
+        </Reveal>
 
         {/* Lowongan terbaru */}
-        <View className="gap-md">
+        <Reveal style={{ gap: 16 }}>
           <View className="flex-row items-center justify-between">
             <Text className="text-title-lg font-semibold text-on-surface">Lowongan terbaru</Text>
             <Pressable onPress={() => router.push('/lowongan')} hitSlop={10} className="-mr-1 px-1 py-1 active:opacity-60">
@@ -89,10 +90,12 @@ export default function HomeScreen() {
               <JobCard key={j.id} job={j} />
             ))}
           </View>
-        </View>
+        </Reveal>
 
-        <Button label="Tingkatkan profil dengan jasa karir" icon="auto-awesome" onPress={() => router.push('/layanan')} fullWidth />
-      </ScrollView>
+        <Reveal>
+          <Button label="Tingkatkan profil dengan jasa karir" icon="auto-awesome" onPress={() => router.push('/layanan')} fullWidth />
+        </Reveal>
+      </RevealScrollView>
     </View>
   );
 }
