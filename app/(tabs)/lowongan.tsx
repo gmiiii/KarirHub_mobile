@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, ScrollView, Pressable, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
+import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon } from '../../src/components/Icon';
 import { JobCard } from '../../src/components/cards';
 import { jobs, jobTypes } from '../../src/data';
@@ -41,7 +42,7 @@ export default function JobBoardScreen() {
         data={list}
         keyExtractor={(j) => j.id}
         renderItem={({ item }) => <JobCard job={item} />}
-        contentContainerStyle={{ padding: 16, gap: 12 }}
+        contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }}
         ListHeaderComponent={
           <Text className="pb-1 text-body-md text-on-surface-variant">
             Menampilkan <Text className="font-semibold text-on-surface">{list.length}</Text> lowongan

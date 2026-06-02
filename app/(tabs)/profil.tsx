@@ -2,6 +2,7 @@ import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
+import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { AvatarInitial, VerifiedBadge, Badge, Button } from '../../src/components/ui';
 import { C } from '../../src/theme';
@@ -23,7 +24,7 @@ export default function ProfilScreen() {
   return (
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader title="Profil" />
-      <ScrollView contentContainerStyle={{ paddingBottom: 32 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
         {/* Header profil */}
         <View className="items-center gap-2 bg-primary-container px-lg pb-lg pt-lg">
           <AvatarInitial name="Rina Hapsari" className="h-20 w-20 border-4 border-surface" textClass="text-headline-md" />

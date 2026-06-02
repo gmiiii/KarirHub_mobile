@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, ScrollView, Pressable, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
+import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon } from '../../src/components/Icon';
 import { ServiceCard } from '../../src/components/cards';
 import { services, serviceCategories } from '../../src/data';
@@ -43,7 +44,7 @@ export default function LayananScreen() {
             <ServiceCard service={item} />
           </View>
         )}
-        contentContainerStyle={{ padding: 16, gap: 12 }}
+        contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }}
         showsVerticalScrollIndicator={false}
       />
     </View>

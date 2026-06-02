@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
+import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Badge, Placeholder, Button } from '../../src/components/ui';
 import { incomingOrders, services, formatRupiah } from '../../src/data';
 import { Icon } from '../../src/components/Icon';
@@ -27,7 +28,7 @@ export default function PesananScreen() {
           </Pressable>
         ))}
       </View>
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 12 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
         {list.length === 0 ? (
           <View className="items-center gap-2 py-16">
             <View className="h-14 w-14 items-center justify-center rounded-full bg-surface-container-high">
