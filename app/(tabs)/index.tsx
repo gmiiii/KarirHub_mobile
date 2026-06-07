@@ -1,11 +1,11 @@
-import { ScrollView, View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
-import { ServiceCard } from '../../src/components/cards';
 import { JobCard } from '../../src/components/cards';
+import { ServiceCarousel } from '../../src/components/ServiceCarousel';
 import { Button } from '../../src/components/ui';
 import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { services, jobs } from '../../src/data';
@@ -25,7 +25,7 @@ export default function HomeScreen() {
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader brand />
       <RevealScrollView contentContainerStyle={{ padding: 16, gap: 24, paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
-        {/* Hero card — di atas lipatan, tampil instan */}
+        {/* Hero card - di atas lipatan, tampil instan */}
         <View className="overflow-hidden rounded-xl bg-primary p-lg">
           <Text className="max-w-[85%] text-headline-md font-bold text-on-primary">
             Satu platform untuk semua kebutuhan karirmu
@@ -66,15 +66,7 @@ export default function HomeScreen() {
               <Text className="text-label-md font-semibold text-primary">Lihat semua</Text>
             </Pressable>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 12, paddingRight: 8 }}
-          >
-            {services.slice(0, 5).map((s) => (
-              <ServiceCard key={s.id} service={s} width={240} />
-            ))}
-          </ScrollView>
+          <ServiceCarousel services={services.slice(0, 5)} />
         </Reveal>
 
         {/* Lowongan terbaru */}
