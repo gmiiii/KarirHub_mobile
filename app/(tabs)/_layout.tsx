@@ -5,7 +5,7 @@ import { useMode, roleMeta } from '../../src/mode';
 
 export default function TabsLayout() {
   const { role } = useMode();
-  // Tab kandidat hanya untuk mode "pencari". Role lain dialihkan ke home-nya —
+  // Tab kandidat hanya untuk mode "pencari". Role lain dialihkan ke home-nya -
   // tiap role independen, hanya bisa dimasuki lewat ganti mode.
   if (role !== 'pencari') return <Redirect href={roleMeta[role].home as never} />;
   return (

@@ -1,9 +1,9 @@
-# KarirHub — Mobile
+# KarirHub - Mobile
 
 Aplikasi mobile **KarirHub**, platform karir Indonesia yang menggabungkan **job board**
 (cari & lamar lowongan, pasang lowongan & kelola pelamar) dan **marketplace jasa karir**
 ala Fiverr (review CV, AI foto CV, coaching interview, dll). Status: front-end statis dengan
-data dummy — belum ada backend/database.
+data dummy - belum ada backend/database.
 
 Versi web-nya ada di repo terpisah: **KarirHub_web** (Next.js 14).
 
@@ -29,7 +29,7 @@ AI Foto CV, talenta, dashboard rekruter/seller, langganan, transaksi.
 
 ## Design token
 
-[`tokens.js`](tokens.js) adalah satu sumber kebenaran untuk warna & spacing — di-`require`
+[`tokens.js`](tokens.js) adalah satu sumber kebenaran untuk warna & spacing - di-`require`
 oleh [`tailwind.config.js`](tailwind.config.js). File yang sama disinkronkan ke repo
 **KarirHub_web** agar tampilan kedua platform identik. Untuk React Native, `fontSize` & `radius`
 didefinisikan dalam px langsung di config (kebutuhan NativeWind), sedangkan warna & spacing
@@ -49,8 +49,8 @@ Terpusat di [`src/data/index.ts`](src/data/index.ts), bentuknya dijaga identik d
   menuntut `react-native-worklets` (reanimated 4 / SDK 52+) sehingga tidak dipakai.
 - [`.npmrc`](.npmrc) memakai `legacy-peer-deps=true` + `overrides` untuk menjaga satu versi
   `react-native` (0.74.5) dan mencegah duplikasi tipe.
-- `expo-font` wajib terpasang (peer `@expo/vector-icons`) — tanpa ini ikon crash di luar Expo Go.
+- `expo-font` wajib terpasang (peer `@expo/vector-icons`) - tanpa ini ikon crash di luar Expo Go.
 
 ---
 
-Tugas Besar — Manajemen Basis Data, Rekayasa Perangkat Lunak.
+Tugas Besar - Manajemen Basis Data, Rekayasa Perangkat Lunak.

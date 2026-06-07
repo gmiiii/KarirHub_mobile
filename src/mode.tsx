@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { MaterialIconName } from './components/Icon';
 
 /**
- * Mode/peran akun (Model A: satu akun, banyak peran — selaras dengan web).
+ * Mode/peran akun (Model A: satu akun, banyak peran - selaras dengan web).
  * State di memori saja; saat ada auth/DB, sambungkan ke peran asli.
  */
 export type Role = 'pencari' | 'seller' | 'rekruter';

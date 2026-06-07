@@ -19,8 +19,8 @@ type RevealProps = ViewProps & {
 
 /**
  * Bungkus satu section agar fade + rise saat tergulir masuk viewport.
- * Harus berada di dalam <RevealScrollView>. Di luar konteks itu — atau saat
- * reduced-motion aktif — item tampil penuh tanpa animasi (tanpa gating).
+ * Harus berada di dalam <RevealScrollView>. Di luar konteks itu - atau saat
+ * reduced-motion aktif - item tampil penuh tanpa animasi (tanpa gating).
  */
 export function Reveal({ children, y = 24, threshold = 0.9, style, onLayout, ...props }: RevealProps) {
   const ctx = useRevealScroll();

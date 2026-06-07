@@ -1,5 +1,5 @@
 /**
- * KarirHub design tokens — SATU sumber kebenaran untuk web (Tailwind) & mobile (NativeWind).
+ * KarirHub design tokens - SATU sumber kebenaran untuk web (Tailwind) & mobile (NativeWind).
  * Sumber: stitch_karirhub_design_system/.../karirhub_ecosystem/DESIGN.md (Material 3).
  * Jangan duplikasi nilai di tempat lain; import file ini dari tailwind.config masing-masing app.
  */
@@ -53,11 +53,11 @@ const colors = {
   'on-background': '#141b2b',
   'surface-variant': '#dce2f7',
   // Aksen semantik tambahan (dipakai marketplace)
-  warning: '#f59e0b', // amber — rating bintang & status pending
+  warning: '#f59e0b', // amber - rating bintang & status pending
   'on-warning': '#ffffff',
 };
 
-// Skala spacing 4/8 — dipakai sebagai key bernama (p-lg, gap-xl, dst).
+// Skala spacing 4/8 - dipakai sebagai key bernama (p-lg, gap-xl, dst).
 const spacing = {
   base: '4px',
   xs: '8px',

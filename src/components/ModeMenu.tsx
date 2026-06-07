@@ -6,7 +6,7 @@ import { useMode, roleMeta, ROLE_ORDER, type Role } from '../mode';
 import { C } from '../theme';
 
 /**
- * Bottom sheet menu akun — padanan mobile dari menu avatar web. Identitas +
+ * Bottom sheet menu akun - padanan mobile dari menu avatar web. Identitas +
  * ganti mode (Model A) dengan mode aktif tersorot. Dibuka dari avatar AppHeader,
  * jadi tersedia sama di setiap layar ketiga role.
  */
@@ -18,7 +18,7 @@ export function ModeMenu({ visible, onClose }: { visible: boolean; onClose: () =
     onClose();
     if (r !== role) {
       setRole(r);
-      // replace (bukan push) — tiap role adalah "dunia" terpisah; tak ada back
+      // replace (bukan push) - tiap role adalah "dunia" terpisah; tak ada back
       // ke pengalaman role sebelumnya.
       router.replace(roleMeta[r].home as never);
     }

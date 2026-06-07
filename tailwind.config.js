@@ -22,7 +22,7 @@ module.exports = {
         full: 9999,
       },
       fontSize: {
-        // [fontSize, lineHeight] dalam px — weight diatur via class font-*
+        // [fontSize, lineHeight] dalam px - weight diatur via class font-*
         'display-lg': ['40px', '44px'],
         'headline-lg': ['30px', '36px'],
         'headline-md': ['24px', '30px'],
