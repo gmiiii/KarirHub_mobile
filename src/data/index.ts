@@ -46,8 +46,8 @@ export const jobs: Job[] = [
     company: 'PT. Teknologi Masa Depan',
     location: 'Jakarta Selatan',
     type: 'Full-time',
-    salary: 'Rp15.000.000 – Rp22.000.000',
-    experience: '3–5 Tahun',
+    salary: 'Rp15.000.000 - Rp22.000.000',
+    experience: '3-5 Tahun',
     verified: true,
     remote: false,
     postedAgo: '2 jam yang lalu',
@@ -72,7 +72,7 @@ export const jobs: Job[] = [
     company: 'Global Creative Agency',
     location: 'Bandung',
     type: 'Internship',
-    salary: 'Rp2.500.000 – Rp4.000.000',
+    salary: 'Rp2.500.000 - Rp4.000.000',
     experience: 'Fresh Graduate',
     verified: false,
     remote: true,
@@ -98,8 +98,8 @@ export const jobs: Job[] = [
     company: 'Fintech Solution Indo',
     location: 'Surabaya',
     type: 'Full-time',
-    salary: 'Rp18.000.000 – Rp28.000.000',
-    experience: '3–5 Tahun',
+    salary: 'Rp18.000.000 - Rp28.000.000',
+    experience: '3-5 Tahun',
     verified: true,
     remote: false,
     postedAgo: '1 hari yang lalu',
@@ -124,8 +124,8 @@ export const jobs: Job[] = [
     company: 'Retail Nusantara Group',
     location: 'Jakarta Pusat',
     type: 'Full-time',
-    salary: 'Rp9.000.000 – Rp14.000.000',
-    experience: '1–3 Tahun',
+    salary: 'Rp9.000.000 - Rp14.000.000',
+    experience: '1-3 Tahun',
     verified: true,
     remote: false,
     postedAgo: '2 hari yang lalu',
@@ -150,7 +150,7 @@ export const jobs: Job[] = [
     company: 'EduTech Pintar',
     location: 'Remote',
     type: 'Remote',
-    salary: 'Rp20.000.000 – Rp30.000.000',
+    salary: 'Rp20.000.000 - Rp30.000.000',
     experience: '5+ Tahun',
     verified: true,
     remote: true,
@@ -176,8 +176,8 @@ export const jobs: Job[] = [
     company: 'SaaS Lokal Berdaya',
     location: 'Yogyakarta',
     type: 'Part-time',
-    salary: 'Rp5.000.000 – Rp7.000.000',
-    experience: '1–3 Tahun',
+    salary: 'Rp5.000.000 - Rp7.000.000',
+    experience: '1-3 Tahun',
     verified: false,
     remote: true,
     postedAgo: '4 hari yang lalu',
@@ -199,7 +199,7 @@ export const jobs: Job[] = [
 ];
 
 export const jobTypes: JobType[] = ['Full-time', 'Part-time', 'Internship', 'Remote', 'Kontrak'];
-export const experiences = ['Fresh Graduate', '1–3 Tahun', '3–5 Tahun', '5+ Tahun'];
+export const experiences = ['Fresh Graduate', '1-3 Tahun', '3-5 Tahun', '5+ Tahun'];
 
 export const serviceCategories = [
   { id: 'cv', label: 'Review CV & ATS', icon: 'description' },
@@ -361,11 +361,11 @@ export const incomingOrders = [
 ];
 
 export const transactions = [
-  { id: 'TRX-90231', date: '28 Mei 2026', item: 'AI Foto CV formal — Standar', amount: 99000, method: 'GoPay', status: 'Berhasil' },
-  { id: 'TRX-90188', date: '22 Mei 2026', item: 'Review CV profesional — Premium', amount: 300000, method: 'BCA Virtual Account', status: 'Berhasil' },
-  { id: 'TRX-90142', date: '15 Mei 2026', item: 'Langganan Seller — Pro (bulanan)', amount: 99000, method: 'Kartu Kredit', status: 'Berhasil' },
-  { id: 'TRX-90101', date: '9 Mei 2026', item: 'Mock interview — Basic', amount: 120000, method: 'OVO', status: 'Gagal' },
-  { id: 'TRX-90077', date: '2 Mei 2026', item: 'Optimasi LinkedIn — Standar', amount: 170000, method: 'GoPay', status: 'Berhasil' },
+  { id: 'TRX-90231', date: '28 Mei 2026', item: 'AI Foto CV formal - Standar', amount: 99000, method: 'GoPay', status: 'Berhasil' },
+  { id: 'TRX-90188', date: '22 Mei 2026', item: 'Review CV profesional - Premium', amount: 300000, method: 'BCA Virtual Account', status: 'Berhasil' },
+  { id: 'TRX-90142', date: '15 Mei 2026', item: 'Langganan Seller - Pro (bulanan)', amount: 99000, method: 'Kartu Kredit', status: 'Berhasil' },
+  { id: 'TRX-90101', date: '9 Mei 2026', item: 'Mock interview - Basic', amount: 120000, method: 'OVO', status: 'Gagal' },
+  { id: 'TRX-90077', date: '2 Mei 2026', item: 'Optimasi LinkedIn - Standar', amount: 170000, method: 'GoPay', status: 'Berhasil' },
 ];
 
 export const sellerPlans = [
@@ -400,6 +400,75 @@ export const myServices = [
   { id: 'optimasi-linkedin', title: 'Optimasi profil LinkedIn end-to-end', active: true, orders: 154, price: 90000, impressions: '2.110' },
   { id: 'desain-portofolio', title: 'Desain portofolio kerja profesional', active: false, orders: 131, price: 250000, impressions: '1.870' },
 ];
+
+// CV kandidat (dokumen milik pengguna). Dipakai di layar profil dan cv-saya.
+// Bentuk dijaga sama dengan web (src/lib/data.ts) agar mudah disambungkan ke API.
+export interface CvExperience {
+  role: string;
+  company: string;
+  period: string;
+  bullets: string[];
+}
+
+export interface CvEducation {
+  degree: string;
+  school: string;
+  period: string;
+}
+
+export interface CvData {
+  name: string;
+  headline: string;
+  location: string;
+  contact: { email: string; phone: string; linkedin: string };
+  about: string;
+  skills: string[];
+  experience: CvExperience[];
+  education: CvEducation[];
+}
+
+export const cvData: CvData = {
+  name: 'Rina Hapsari',
+  headline: 'Senior Product Designer',
+  location: 'Jakarta, Indonesia',
+  contact: {
+    email: 'rina.hapsari@email.com',
+    phone: '+62 812-3456-7890',
+    linkedin: 'linkedin.com/in/rinahapsari',
+  },
+  about:
+    'Product designer dengan 6 tahun pengalaman membangun produk digital yang berpusat pada pengguna. Fokus pada design system, riset, dan kolaborasi lintas tim.',
+  skills: ['Figma', 'Design System', 'User Research', 'Prototyping', 'Desain Interaksi'],
+  experience: [
+    {
+      role: 'Senior Product Designer',
+      company: 'PT. Teknologi Masa Depan',
+      period: '2022 - Sekarang',
+      bullets: [
+        'Memimpin desain end-to-end untuk produk utama dengan 2 juta pengguna aktif.',
+        'Membangun dan merawat design system perusahaan yang dipakai 5 tim produk.',
+      ],
+    },
+    {
+      role: 'Product Designer',
+      company: 'Global Creative Agency',
+      period: '2019 - 2022',
+      bullets: [
+        'Mendesain antarmuka untuk 12+ klien dari berbagai industri.',
+        'Menjalankan riset pengguna dan usability testing secara berkala.',
+      ],
+    },
+    {
+      role: 'UI Designer',
+      company: 'Startup Lokal',
+      period: '2018 - 2019',
+      bullets: ['Membuat komponen UI dan prototipe interaktif untuk aplikasi mobile.'],
+    },
+  ],
+  education: [
+    { degree: 'S1 Desain Komunikasi Visual', school: 'Universitas Indonesia', period: '2014 - 2018' },
+  ],
+};
 
 export const talents = [
   { name: 'Rina Hapsari', title: 'Senior Product Designer', location: 'Jakarta', exp: '6 tahun', skills: ['Figma', 'Design System', 'Riset'], rating: 4.9, open: true },

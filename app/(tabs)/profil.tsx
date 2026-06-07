@@ -9,7 +9,7 @@ import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { C } from '../../src/theme';
 
 const menus: { icon: MaterialIconName; label: string; href: string }[] = [
-  { icon: 'description', label: 'CV & Lamaran Saya', href: '/layanan' },
+  { icon: 'description', label: 'CV Saya', href: '/cv-saya' },
   { icon: 'bookmark', label: 'Lowongan Tersimpan', href: '/lowongan' },
   { icon: 'receipt-long', label: 'Riwayat Transaksi', href: '/transaksi' },
   { icon: 'workspace-premium', label: 'Paket Langganan', href: '/langganan' },
@@ -24,7 +24,7 @@ export default function ProfilScreen() {
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader title="Profil" />
       <RevealScrollView contentContainerStyle={{ paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
-        {/* Header profil — instan */}
+        {/* Header profil - instan */}
         <View className="items-center gap-2 bg-primary-container px-lg pb-lg pt-lg">
           <AvatarInitial name="Rina Hapsari" className="h-20 w-20 border-4 border-surface" textClass="text-headline-md" />
           <View className="flex-row items-center gap-2">
