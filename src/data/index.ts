@@ -1,6 +1,8 @@
 // Data dummy KarirHub (front-end statis). Bentuk dijaga sama dengan mobile (src/data).
 // Belum ada backend; semua nilai contoh.
 
+import type { ImageSourcePropType } from 'react-native';
+
 export type JobType = 'Full-time' | 'Part-time' | 'Internship' | 'Remote' | 'Kontrak';
 
 export interface Job {
@@ -203,7 +205,6 @@ export const experiences = ['Fresh Graduate', '1-3 Tahun', '3-5 Tahun', '5+ Tahu
 
 export const serviceCategories = [
   { id: 'cv', label: 'Review CV & ATS', icon: 'description' },
-  { id: 'foto', label: 'AI Foto CV', icon: 'photo_camera' },
   { id: 'interview', label: 'Latihan Interview', icon: 'forum' },
   { id: 'linkedin', label: 'Optimasi LinkedIn', icon: 'hub' },
   { id: 'coaching', label: 'Career Coaching', icon: 'school' },
@@ -228,25 +229,6 @@ export const services: Service[] = [
       { name: 'Basic', price: 75000, desc: 'Review 1 halaman CV', features: ['Feedback tertulis', '1x revisi', 'Selesai 2 hari'] },
       { name: 'Standar', price: 150000, desc: 'Review + perbaikan layout', features: ['Perbaikan struktur', 'Optimasi kata kunci ATS', '2x revisi'] },
       { name: 'Premium', price: 300000, desc: 'CV + LinkedIn + konsultasi', features: ['Tulis ulang CV', 'Optimasi LinkedIn', 'Konsultasi 30 menit'] },
-    ],
-  },
-  {
-    id: 'ai-foto-cv-formal',
-    title: 'AI Foto CV formal siap pakai',
-    seller: 'Studio Karya',
-    category: 'AI Foto CV',
-    rating: 4.8,
-    reviews: 412,
-    priceFrom: 49000,
-    verified: true,
-    deliveryDays: 1,
-    thumbColor: '#006329',
-    description:
-      'Ubah swafoto biasa jadi pasfoto profesional dengan latar rapi dan pencahayaan studio, dihasilkan AI.',
-    packages: [
-      { name: 'Basic', price: 49000, desc: '10 hasil foto', features: ['Latar polos', 'Resolusi standar', 'Selesai 1 hari'] },
-      { name: 'Standar', price: 99000, desc: '30 hasil foto', features: ['3 pilihan latar', 'Resolusi tinggi', 'Retouch ringan'] },
-      { name: 'Premium', price: 199000, desc: '60 hasil + pakaian formal', features: ['Ganti pakaian formal', 'Resolusi cetak', 'Prioritas antrian'] },
     ],
   },
   {
@@ -355,13 +337,13 @@ export const applicants = [
 
 export const incomingOrders = [
   { id: 'KH-2041', buyer: 'Ahmad Fauzi', service: 'Review CV profesional', pkg: 'Standar', price: 150000, due: '1 hari lagi', status: 'Dikerjakan' },
-  { id: 'KH-2039', buyer: 'Citra Dewi', service: 'AI Foto CV formal', pkg: 'Premium', price: 199000, due: 'Hari ini', status: 'Menunggu' },
+  { id: 'KH-2039', buyer: 'Citra Dewi', service: 'Desain portofolio kerja', pkg: 'Standar', price: 450000, due: 'Hari ini', status: 'Menunggu' },
   { id: 'KH-2035', buyer: 'Bayu Aji', service: 'Mock interview', pkg: 'Basic', price: 120000, due: '3 hari lagi', status: 'Dikerjakan' },
   { id: 'KH-2030', buyer: 'Sinta Lestari', service: 'Optimasi LinkedIn', pkg: 'Standar', price: 170000, due: 'Selesai', status: 'Selesai' },
 ];
 
 export const transactions = [
-  { id: 'TRX-90231', date: '28 Mei 2026', item: 'AI Foto CV formal - Standar', amount: 99000, method: 'GoPay', status: 'Berhasil' },
+  { id: 'TRX-90231', date: '28 Mei 2026', item: 'Kredit CV - Paket Plus', amount: 29000, method: 'GoPay', status: 'Berhasil' },
   { id: 'TRX-90188', date: '22 Mei 2026', item: 'Review CV profesional - Premium', amount: 300000, method: 'BCA Virtual Account', status: 'Berhasil' },
   { id: 'TRX-90142', date: '15 Mei 2026', item: 'Langganan Seller - Pro (bulanan)', amount: 99000, method: 'Kartu Kredit', status: 'Berhasil' },
   { id: 'TRX-90101', date: '9 Mei 2026', item: 'Mock interview - Basic', amount: 120000, method: 'OVO', status: 'Gagal' },
@@ -395,6 +377,49 @@ export const sellerPlans = [
   },
 ];
 
+// Kredit Pembuatan CV: 1 kredit = 1x generate (foto formal + ringkasan) di fitur Buat CV AI.
+export const FREE_CV_CREDITS = 1;
+export const CREDIT_PER_GENERATE = 1;
+
+export const cvCreditPlans = [
+  {
+    name: 'Gratis',
+    price: 0,
+    period: 'bulan',
+    highlight: false,
+    features: ['1 kredit pembuatan CV', 'Gaya foto dasar', 'Simpan 1 CV'],
+    cta: 'Paket aktif',
+  },
+  {
+    name: 'Plus',
+    price: 29000,
+    period: 'bulan',
+    highlight: true,
+    features: ['10 kredit / bulan', 'Semua gaya foto formal', 'Tanpa watermark', 'Simpan riwayat CV'],
+    cta: 'Pilih Paket',
+  },
+  {
+    name: 'Pro',
+    price: 59000,
+    period: 'bulan',
+    highlight: false,
+    features: ['30 kredit / bulan', 'Resolusi tinggi', 'Prioritas proses', 'Ekspor PDF & Word'],
+    cta: 'Pilih Paket',
+  },
+];
+
+export interface CreditTopup {
+  credits: number;
+  price: number;
+  note?: string;
+}
+
+export const cvCreditTopups: CreditTopup[] = [
+  { credits: 1, price: 10000 },
+  { credits: 5, price: 40000, note: 'Hemat 20%' },
+  { credits: 15, price: 99000, note: 'Hemat 34%' },
+];
+
 export const myServices = [
   { id: 'review-cv-ats', title: 'Review CV profesional + optimasi ATS', active: true, orders: 218, price: 75000, impressions: '3.420' },
   { id: 'optimasi-linkedin', title: 'Optimasi profil LinkedIn end-to-end', active: true, orders: 154, price: 90000, impressions: '2.110' },
@@ -420,6 +445,7 @@ export interface CvData {
   name: string;
   headline: string;
   location: string;
+  photo: ImageSourcePropType;
   contact: { email: string; phone: string; linkedin: string };
   about: string;
   skills: string[];
@@ -427,10 +453,14 @@ export interface CvData {
   education: CvEducation[];
 }
 
+/** Foto dummy persona utama (Rina Hapsari). Satu sumber dipakai di profil & CV. */
+export const RINA_PHOTO: ImageSourcePropType = require('../../assets/dummy/rina.jpg');
+
 export const cvData: CvData = {
   name: 'Rina Hapsari',
   headline: 'Senior Product Designer',
   location: 'Jakarta, Indonesia',
+  photo: RINA_PHOTO,
   contact: {
     email: 'rina.hapsari@email.com',
     phone: '+62 812-3456-7890',

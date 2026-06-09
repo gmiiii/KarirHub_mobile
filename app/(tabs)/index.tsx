@@ -12,7 +12,7 @@ import { services, jobs } from '../../src/data';
 import { C } from '../../src/theme';
 
 const shortcuts: { icon: MaterialIconName; label: string; href: string }[] = [
-  { icon: 'photo-camera', label: 'AI Foto CV', href: '/ai-foto-cv' },
+  { icon: 'auto-awesome', label: 'Buat CV AI', href: '/ai-foto-cv' },
   { icon: 'work-history', label: 'Jasa Karir', href: '/layanan' },
   { icon: 'apartment', label: 'Lowongan', href: '/lowongan' },
   { icon: 'person-search', label: 'Talenta', href: '/talenta' },
