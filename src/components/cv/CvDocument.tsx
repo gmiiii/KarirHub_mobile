@@ -12,8 +12,8 @@ export function CvDocument({ cv }: { cv: CvData }) {
         <View className="flex-row items-center gap-md">
           <Image
             source={cv.photo}
+            className="h-20 w-16 rounded-lg border border-on-primary/30"
             resizeMode="cover"
-            style={{ width: 64, height: 84, borderRadius: 8 }}
           />
           <View className="flex-1">
             <Text className="text-headline-md font-bold text-on-primary">{cv.name}</Text>
