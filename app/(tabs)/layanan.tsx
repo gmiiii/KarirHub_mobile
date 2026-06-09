@@ -11,9 +11,15 @@ import { C } from '../../src/theme';
 
 export default function LayananScreen() {
   const [active, setActive] = useState('Semua');
+  const [query, setQuery] = useState('');
   const [headerH, setHeaderH] = useState(200); // estimasi awal; dikoreksi onLayout
   const cats = ['Semua', ...serviceCategories.map((c) => c.label)];
-  const list = active === 'Semua' ? services : services.filter((s) => s.category === active);
+  const q = query.trim().toLowerCase();
+  const list = services.filter((s) => {
+    const okCat = active === 'Semua' || s.category === active;
+    const okQuery = !q || [s.title, s.seller, s.category].join(' ').toLowerCase().includes(q);
+    return okCat && okQuery;
+  });
 
   return (
     <View className="flex-1 bg-surface-container-low">
@@ -45,6 +51,8 @@ export default function LayananScreen() {
         <View className="flex-row items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-md">
           <Icon name="search" size={20} color={C.onSurfaceVariant} />
           <TextInput
+            value={query}
+            onChangeText={setQuery}
             placeholder="Cari jasa, mis. review CV"
             placeholderTextColor={C.onSurfaceVariant}
             className="flex-1 py-3 text-body-md text-on-surface"
