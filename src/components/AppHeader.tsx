@@ -5,9 +5,16 @@ import { Icon } from './Icon';
 import { PressableScale } from './PressableScale';
 import { AvatarInitial } from './ui';
 import { ModeMenu } from './ModeMenu';
-import { useMode, roleMeta } from '../mode';
+import { useMode, roleMeta, type Role } from '../mode';
 import { RINA_PHOTO } from '../data';
 import { C } from '../theme';
+
+// Nama persona per mode (selaras dengan web). Foto hanya untuk Pencari Kerja.
+const accountName: Record<Role, string> = {
+  pencari: 'Rina Hapsari',
+  seller: 'Dewi Lestari',
+  rekruter: 'PT. Teknologi Masa Depan',
+};
 
 /** Top app bar bersama. `back` menampilkan tombol kembali; default judul "KarirHub".
  *  `transparent` menghilangkan latar & garis bawah agar bisa duduk di atas blur. */
@@ -25,8 +32,9 @@ export function AppHeader({
   const router = useRouter();
   const { role } = useMode();
   const [menuOpen, setMenuOpen] = useState(false);
-  // Foto persona hanya untuk mode Pencari Kerja; mode lain memakai inisial.
+  // Isi kapsul berbeda per mode, tapi ukurannya dijaga sama (lebar teks tetap).
   const photo = role === 'pencari' ? RINA_PHOTO : undefined;
+  const name = accountName[role];
 
   return (
     <View
@@ -66,18 +74,20 @@ export function AppHeader({
           <Icon name="notifications" size={24} color={C.onSurfaceVariant} />
         </PressableScale>
 
-        {/* Kapsul akun: avatar + nama + mode + chevron (padanan dropdown web). */}
+        {/* Kapsul akun: avatar + nama + mode + chevron (padanan dropdown web).
+            Layout & gaya pill di contentClassName karena PressableScale membungkus
+            anak di Animated.View. Lebar teks tetap agar ukuran sama di tiap mode. */}
         <PressableScale
           onPress={() => setMenuOpen(true)}
           hitSlop={8}
           accessibilityLabel="Akun & ganti mode"
           accessibilityRole="button"
-          className="flex-row items-center gap-2 rounded-full border border-outline-variant py-1 pl-1 pr-2 active:bg-surface-container"
+          contentClassName="flex-row items-center gap-2 rounded-full border border-outline-variant py-1 pl-1 pr-2"
         >
-          <AvatarInitial name="Rina Hapsari" source={photo} className="h-8 w-8" textClass="text-caption" />
-          <View style={{ maxWidth: 90 }}>
+          <AvatarInitial name={name} source={photo} className="h-8 w-8" textClass="text-caption" />
+          <View style={{ width: 104 }}>
             <Text numberOfLines={1} className="text-label-md font-semibold text-on-surface">
-              Rina Hapsari
+              {name}
             </Text>
             <Text numberOfLines={1} className="text-caption text-on-surface-variant">
               {roleMeta[role].label}
