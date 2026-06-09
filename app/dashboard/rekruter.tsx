@@ -1,14 +1,33 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useRouter, Redirect } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
-import { Badge, AvatarInitial, Button } from '../../src/components/ui';
+import { Badge, AvatarInitial } from '../../src/components/ui';
 import { useMode, roleMeta } from '../../src/mode';
 import { recruiterStats, applicants } from '../../src/data';
 import { C } from '../../src/theme';
 
 const statusTone = { Baru: 'info', Review: 'warning', Shortlist: 'verified' } as const;
+
+const rekruterNav: { icon: MaterialIconName; label: string; href: string }[] = [
+  { icon: 'add-box', label: 'Pasang Lowongan', href: '/pasang-lowongan' },
+  { icon: 'groups', label: 'Cari Talenta', href: '/talenta' },
+  { icon: 'workspace-premium', label: 'Paket Premium', href: '/paket-rekruter' },
+  { icon: 'receipt-long', label: 'Transaksi', href: '/transaksi' },
+];
+
+const activeJobs = [
+  { title: 'Senior UI/UX Designer', applicants: 420 },
+  { title: 'Back-End Engineer (Go/Node)', applicants: 318 },
+  { title: 'Data Analyst', applicants: 510 },
+];
+
+const rekruterTips: { icon: MaterialIconName; text: string }[] = [
+  { icon: 'fact-check', text: '64 pelamar menunggu direview.' },
+  { icon: 'schedule', text: '2 lowongan akan kedaluwarsa minggu ini.' },
+  { icon: 'workspace-premium', text: 'Tingkatkan ke paket Growth untuk slot lebih banyak.' },
+];
 
 export default function DashRekruter() {
   const insets = useSafeAreaInsets();
@@ -23,6 +42,23 @@ export default function DashRekruter() {
         <View className="flex-row flex-wrap" style={{ gap: 12 }}>
           {recruiterStats.map((s) => (
             <StatCard key={s.label} icon={s.icon as MaterialIconName} label={s.label} value={s.value} delta={s.delta} />
+          ))}
+        </View>
+
+        {/* Aksi cepat */}
+        <View className="flex-row flex-wrap" style={{ gap: 12 }}>
+          {rekruterNav.map((n) => (
+            <Pressable
+              key={n.href}
+              onPress={() => router.push(n.href as never)}
+              style={{ width: '47.5%' }}
+              className="flex-grow flex-row items-center gap-md rounded-xl border border-outline-variant bg-surface-container-lowest p-md active:bg-surface-container-low"
+            >
+              <View className="h-10 w-10 items-center justify-center rounded-lg bg-primary-fixed">
+                <Icon name={n.icon} size={20} color={C.primary} />
+              </View>
+              <Text className="flex-1 text-label-md font-semibold text-on-surface">{n.label}</Text>
+            </Pressable>
           ))}
         </View>
 
@@ -42,7 +78,33 @@ export default function DashRekruter() {
           ))}
         </View>
 
-        <Button label="Cari talenta" icon="groups" fullWidth onPress={() => router.push('/talenta')} />
+        {/* Lowongan aktif */}
+        <View className="gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
+          <Text className="text-title-lg font-semibold text-on-surface">Lowongan aktif</Text>
+          {activeJobs.map((j, i) => (
+            <View
+              key={j.title}
+              className={`flex-row items-center justify-between ${i > 0 ? 'border-t border-outline-variant pt-3' : ''}`}
+            >
+              <View className="flex-1 pr-2">
+                <Text className="text-label-md font-semibold text-on-surface" numberOfLines={1}>{j.title}</Text>
+                <Text className="text-caption text-on-surface-variant">{j.applicants} pelamar</Text>
+              </View>
+              <Badge label="Aktif" tone="verified" />
+            </View>
+          ))}
+        </View>
+
+        {/* Saran tindakan */}
+        <View className="gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
+          <Text className="text-title-lg font-semibold text-on-surface">Saran tindakan</Text>
+          {rekruterTips.map((t) => (
+            <View key={t.text} className="flex-row items-start gap-md">
+              <Icon name={t.icon} size={20} color={C.primary} />
+              <Text className="flex-1 text-body-md text-on-surface-variant">{t.text}</Text>
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
