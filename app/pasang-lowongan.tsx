@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../src/components/AppHeader';
 import { Icon } from '../src/components/Icon';
 import { Button } from '../src/components/ui';
+import { useToast } from '../src/components/Toast';
 import { jobTypes, experiences } from '../src/data';
 import { C } from '../src/theme';
 
 export default function PasangLowongan() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const toast = useToast();
   const [jobType, setJobType] = useState<string>(jobTypes[0]);
   const [exp, setExp] = useState<string>(experiences[0]);
   const [highlight, setHighlight] = useState(false);
@@ -73,8 +77,16 @@ export default function PasangLowongan() {
       </ScrollView>
 
       <View className="gap-2 border-t border-outline-variant bg-surface px-md py-3" style={{ paddingBottom: insets.bottom + 12 }}>
-        <Button label="Tayangkan Lowongan" icon="publish" fullWidth />
-        <Button label="Simpan Draf" variant="secondary" icon="save" fullWidth />
+        <Button
+          label="Tayangkan Lowongan"
+          icon="publish"
+          fullWidth
+          onPress={() => {
+            toast('Lowongan berhasil ditayangkan');
+            router.replace('/dashboard/rekruter');
+          }}
+        />
+        <Button label="Simpan Draf" variant="secondary" icon="save" fullWidth onPress={() => toast('Draf lowongan disimpan')} />
       </View>
     </View>
   );

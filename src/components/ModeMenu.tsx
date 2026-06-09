@@ -27,6 +27,7 @@ export function ModeMenu({ visible, onClose }: { visible: boolean; onClose: () =
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
       <Pressable className="flex-1 justify-end bg-black/40" onPress={onClose}>
+        {/* Menelan tap pada isi sheet agar tidak menutup modal (backdrop di luar yang menutup). */}
         <Pressable onPress={() => {}} className="rounded-t-2xl bg-surface-container-lowest px-md pb-8 pt-3">
           <View className="mb-2 h-1 w-10 self-center rounded-full bg-outline-variant" />
 

@@ -1,13 +1,17 @@
 import { View, Text, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../src/components/AppHeader';
 import { Icon } from '../src/components/Icon';
 import { Badge, Button } from '../src/components/ui';
+import { useToast } from '../src/components/Toast';
 import { recruiterPlans, formatRupiah } from '../src/data';
 import { C } from '../src/theme';
 
 export default function PaketRekruter() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const toast = useToast();
   return (
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader title="Paket Premium" back />
@@ -42,7 +46,16 @@ export default function PaketRekruter() {
               ))}
             </View>
             <View className="mt-lg">
-              <Button label={p.cta} variant={p.highlight ? 'primary' : 'secondary'} fullWidth />
+              <Button
+                label={p.cta}
+                variant={p.highlight ? 'primary' : 'secondary'}
+                fullWidth
+                onPress={() =>
+                  p.cta.toLowerCase().includes('hubungi')
+                    ? toast('Permintaan kontak terkirim. Tim sales akan menghubungi Anda.', 'info')
+                    : router.push('/checkout')
+                }
+              />
             </View>
           </View>
         ))}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../src/components/AppHeader';
 import { Icon } from '../src/components/Icon';
 import { Badge, Button } from '../src/components/ui';
+import { useToast } from '../src/components/Toast';
 import { sellerPlans, cvCreditPlans, cvCreditTopups, formatRupiah } from '../src/data';
 import { C } from '../src/theme';
 
@@ -20,6 +22,7 @@ type Plan = {
 
 export default function Langganan() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>('kredit');
 
   return (
@@ -74,7 +77,7 @@ export default function Langganan() {
                   </View>
                   <Text className="text-body-md font-bold text-primary">{formatRupiah(t.price)}</Text>
                 </View>
-                <Button label="Beli" variant="secondary" icon="shopping-cart" />
+                <Button label="Beli" variant="secondary" icon="shopping-cart" onPress={() => router.push('/checkout')} />
               </View>
             ))}
 
@@ -106,6 +109,11 @@ export default function Langganan() {
 }
 
 function PlanCard({ plan: p }: { plan: Plan }) {
+  const router = useRouter();
+  const toast = useToast();
+  const cta = p.cta.toLowerCase();
+  const onPress = () =>
+    cta.includes('aktif') ? toast('Paket ini sudah aktif', 'info') : router.push('/checkout');
   return (
     <View className={`rounded-xl border bg-surface-container-lowest p-lg ${p.highlight ? 'border-primary' : 'border-outline-variant'}`}>
       <View className="flex-row items-center justify-between">
@@ -125,7 +133,7 @@ function PlanCard({ plan: p }: { plan: Plan }) {
         ))}
       </View>
       <View className="mt-lg">
-        <Button label={p.cta} variant={p.highlight ? 'primary' : 'secondary'} fullWidth />
+        <Button label={p.cta} variant={p.highlight ? 'primary' : 'secondary'} fullWidth onPress={onPress} />
       </View>
     </View>
   );
