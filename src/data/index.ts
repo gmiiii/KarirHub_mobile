@@ -420,6 +420,34 @@ export const cvCreditTopups: CreditTopup[] = [
   { credits: 15, price: 99000, note: 'Hemat 34%' },
 ];
 
+// Paket premium sisi rekruter (B2B). Bentuk sama dengan sellerPlans.
+export const recruiterPlans = [
+  {
+    name: 'Starter',
+    price: 500000,
+    period: 'bulan',
+    highlight: false,
+    features: ['3 lowongan aktif', 'Akses talent pool dasar', 'Skor kecocokan otomatis'],
+    cta: 'Pilih Paket',
+  },
+  {
+    name: 'Growth',
+    price: 1200000,
+    period: 'bulan',
+    highlight: true,
+    features: ['15 lowongan aktif', 'Akses talent pool penuh', 'Skor kecocokan lanjutan', 'Badge perusahaan terverifikasi'],
+    cta: 'Pilih Paket',
+  },
+  {
+    name: 'Enterprise',
+    price: 2000000,
+    period: 'bulan',
+    highlight: false,
+    features: ['Lowongan tanpa batas', 'Talent pool penuh + ekspor kandidat', 'Account manager khusus', 'Dukungan prioritas 24/7'],
+    cta: 'Hubungi Sales',
+  },
+];
+
 export const myServices = [
   { id: 'review-cv-ats', title: 'Review CV profesional + optimasi ATS', active: true, orders: 218, price: 75000, impressions: '3.420' },
   { id: 'optimasi-linkedin', title: 'Optimasi profil LinkedIn end-to-end', active: true, orders: 154, price: 90000, impressions: '2.110' },
