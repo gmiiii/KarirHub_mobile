@@ -113,8 +113,8 @@ function PlanCard({ plan: p }: { plan: Plan }) {
         {p.highlight && <Badge label="Populer" tone="info" icon="star" />}
       </View>
       <View className="mt-1 flex-row items-baseline gap-1">
-        <Text className="text-headline-md font-bold text-on-surface">{p.price === 0 ? 'Gratis' : formatRupiah(p.price)}</Text>
-        {p.price > 0 && <Text className="text-body-md text-on-surface-variant">/{p.period}</Text>}
+        <Text className="text-headline-md font-bold text-on-surface">{formatRupiah(p.price)}</Text>
+        <Text className="text-body-md text-on-surface-variant">/{p.period}</Text>
       </View>
       <View className="mt-md gap-2">
         {p.features.map((f) => (
