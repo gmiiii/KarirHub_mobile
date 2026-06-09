@@ -1,13 +1,22 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, Pressable, TextInput } from 'react-native';
+import { View, Text, ScrollView, Pressable, TextInput, Image, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../src/components/AppHeader';
 import { Icon } from '../src/components/Icon';
-import { Badge, Button, Placeholder } from '../src/components/ui';
+import { Badge, Button } from '../src/components/ui';
 import { CvDocument } from '../src/components/cv/CvDocument';
-import { cvData, RINA_PHOTO, FREE_CV_CREDITS, CREDIT_PER_GENERATE, type CvData } from '../src/data';
+import { cvData, FREE_CV_CREDITS, CREDIT_PER_GENERATE, type CvData } from '../src/data';
 import { C } from '../src/theme';
+
+/** Syarat foto wajah yang diunggah agar hasil AI maksimal. */
+const PHOTO_GUIDE = [
+  'Wajah terlihat jelas dan menghadap kamera',
+  'Pencahayaan merata, tidak gelap atau silau',
+  'Latar belakang polos atau tidak ramai',
+  'Tanpa kacamata hitam, masker, atau topi',
+];
 
 /** Gaya foto formal yang dihasilkan AI dari foto yang diunggah. */
 const PHOTO_STYLES = [
@@ -28,9 +37,9 @@ export default function AiFotoCv() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  // Foto yang diunggah boleh informal; AI menghasilkan pasfoto formal sesuai gaya
-  // yang dipilih. Hasil formal disimulasikan dengan foto contoh.
-  const [photoAttached, setPhotoAttached] = useState(false);
+  // Foto wajah yang diunggah boleh informal; AI menghasilkan pasfoto formal sesuai
+  // gaya yang dipilih. Pemrosesan AI disimulasikan (front-end dummy).
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [style, setStyle] = useState('formal');
 
   // Form diisi awal dengan data contoh agar pratinjau langsung lengkap saat dicoba.
@@ -56,8 +65,23 @@ export default function AiFotoCv() {
   const styleName = PHOTO_STYLES.find((s) => s.id === style)?.name ?? 'Formal Kantor';
   const hasCredit = credits >= CREDIT_PER_GENERATE;
 
+  async function pickImage() {
+    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) {
+      Alert.alert('Izin diperlukan', 'Beri izin akses galeri untuk mengunggah foto wajah.');
+      return;
+    }
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 0.8,
+    });
+    if (!res.canceled) setPhotoUri(res.assets[0].uri);
+  }
+
   function handleGenerate() {
-    if (!hasCredit) return;
+    if (!hasCredit || !photoUri) return;
     setCredits((c) => c - CREDIT_PER_GENERATE);
     setGenerating(true);
     const skillList = skills
@@ -71,7 +95,8 @@ export default function AiFotoCv() {
         name,
         headline,
         location,
-        photo: RINA_PHOTO,
+        // Pasfoto formal hasil AI (disimulasikan dengan foto yang diunggah).
+        photo: { uri: photoUri },
         contact: { email, phone, linkedin },
         about: generateAbout(headline, location, skillList),
         skills: skillList,
@@ -132,31 +157,45 @@ export default function AiFotoCv() {
           </Text>
         </View>
 
-        {/* Foto */}
-        <Text className="text-title-lg font-semibold text-on-surface">Foto profil</Text>
-        {photoAttached ? (
+        {/* Foto wajah */}
+        <Text className="text-title-lg font-semibold text-on-surface">Foto wajah</Text>
+        {photoUri ? (
           <View className="flex-row items-center gap-md rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
-            <Placeholder icon="person" className="h-20 w-16" size={32} />
+            <Image source={{ uri: photoUri }} resizeMode="cover" style={{ width: 64, height: 84, borderRadius: 8 }} />
             <View className="flex-1 gap-1">
               <Text className="text-label-md font-semibold text-on-surface">Foto terpasang</Text>
               <Text className="text-caption text-on-surface-variant">AI akan mengubahnya jadi pasfoto formal.</Text>
             </View>
-            <Pressable onPress={() => setPhotoAttached(false)} hitSlop={8}>
+            <Pressable onPress={pickImage} hitSlop={8}>
               <Text className="text-label-md font-semibold text-primary">Ganti</Text>
             </Pressable>
           </View>
         ) : (
           <Pressable
-            onPress={() => setPhotoAttached(true)}
+            onPress={pickImage}
             className="items-center gap-2 rounded-xl border-2 border-dashed border-outline-variant bg-surface-container-lowest px-lg py-xl active:opacity-90"
           >
             <View className="h-14 w-14 items-center justify-center rounded-full bg-primary-fixed">
               <Icon name="add-a-photo" size={28} color={C.primary} />
             </View>
-            <Text className="text-label-md font-semibold text-on-surface">Unggah foto</Text>
-            <Text className="text-center text-caption text-on-surface-variant">Boleh foto biasa. JPG/PNG, maks 5MB.</Text>
+            <Text className="text-label-md font-semibold text-on-surface">Unggah foto wajah</Text>
+            <Text className="text-center text-caption text-on-surface-variant">Cukup foto wajah. JPG/PNG, maks 5MB.</Text>
           </Pressable>
         )}
+
+        {/* Panduan foto */}
+        <View className="gap-2 rounded-xl border border-outline-variant bg-surface-container-lowest p-lg">
+          <View className="flex-row items-center gap-2">
+            <Icon name="verified" size={18} color={C.primary} />
+            <Text className="text-label-md font-semibold text-on-surface">Panduan foto wajah</Text>
+          </View>
+          {PHOTO_GUIDE.map((g) => (
+            <View key={g} className="flex-row items-start gap-2">
+              <Icon name="check-circle" size={16} color={C.tertiary} />
+              <Text className="flex-1 text-body-md text-on-surface-variant">{g}</Text>
+            </View>
+          ))}
+        </View>
 
         {/* Gaya foto formal */}
         <Text className="text-label-md font-medium text-on-surface">Gaya foto formal</Text>
@@ -201,7 +240,7 @@ export default function AiFotoCv() {
             label={generating ? 'Menyusun CV...' : 'Generate dengan AI (1 kredit)'}
             icon="auto-awesome"
             fullWidth
-            onPress={photoAttached && !generating ? handleGenerate : undefined}
+            onPress={photoUri && !generating ? handleGenerate : undefined}
           />
         ) : (
           <View className="gap-2">
