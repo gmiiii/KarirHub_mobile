@@ -1,10 +1,11 @@
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { View, Text, Pressable, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { AvatarInitial, VerifiedBadge, Badge, Button } from '../../src/components/ui';
+import { useToast } from '../../src/components/Toast';
 import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { RINA_PHOTO } from '../../src/data';
 import { C } from '../../src/theme';
@@ -14,6 +15,9 @@ const menus: { icon: MaterialIconName; label: string; href: string }[] = [
   { icon: 'bookmark', label: 'Lowongan Tersimpan', href: '/lowongan' },
   { icon: 'receipt-long', label: 'Riwayat Transaksi', href: '/transaksi' },
   { icon: 'workspace-premium', label: 'Paket Langganan', href: '/langganan' },
+  { icon: 'help-outline', label: 'Pusat Bantuan', href: '/bantuan' },
+  { icon: 'gavel', label: 'Ketentuan Layanan', href: '/ketentuan' },
+  { icon: 'privacy-tip', label: 'Kebijakan Privasi', href: '/kebijakan-privasi' },
 ];
 
 const skills = ['Figma', 'Design System', 'User Research', 'Prototyping'];
@@ -21,6 +25,22 @@ const skills = ['Figma', 'Design System', 'User Research', 'Prototyping'];
 export default function ProfilScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const toast = useToast();
+
+  const handleLogout = () => {
+    Alert.alert('Keluar akun', 'Kamu yakin ingin keluar dari akun ini?', [
+      { text: 'Batal', style: 'cancel' },
+      {
+        text: 'Keluar',
+        style: 'destructive',
+        onPress: () => {
+          toast('Kamu telah keluar');
+          router.replace('/');
+        },
+      },
+    ]);
+  };
+
   return (
     <View className="flex-1 bg-surface" style={{ paddingTop: insets.top }}>
       <AppHeader title="Profil" />
@@ -78,9 +98,10 @@ export default function ProfilScreen() {
           </Reveal>
 
           <Reveal className="gap-3">
-            <Button label="Edit profil" variant="secondary" icon="edit" fullWidth />
+            <Button label="Edit profil" variant="secondary" icon="edit" fullWidth onPress={() => toast('Profil berhasil diperbarui')} />
             <Pressable
               accessibilityRole="button"
+              onPress={handleLogout}
               className="h-12 flex-row items-center justify-center gap-2 rounded-lg border border-error/25 bg-error-container active:scale-[0.97] active:opacity-95"
             >
               <Icon name="logout" size={20} color={C.onErrorContainer} />

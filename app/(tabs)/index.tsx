@@ -11,11 +11,13 @@ import { RevealScrollView, Reveal } from '../../src/components/motion';
 import { services, jobs } from '../../src/data';
 import { C } from '../../src/theme';
 
+// Pintasan untuk pencari kerja. "Talenta" (khusus rekruter) tidak ditampilkan di sini
+// agar tidak mengarah ke layar yang tidak dapat diakses dari mode pencari.
 const shortcuts: { icon: MaterialIconName; label: string; href: string }[] = [
   { icon: 'auto-awesome', label: 'Buat CV AI', href: '/ai-foto-cv' },
   { icon: 'work-history', label: 'Jasa Karir', href: '/layanan' },
   { icon: 'apartment', label: 'Lowongan', href: '/lowongan' },
-  { icon: 'person-search', label: 'Talenta', href: '/talenta' },
+  { icon: 'description', label: 'CV Saya', href: '/cv-saya' },
 ];
 
 export default function HomeScreen() {

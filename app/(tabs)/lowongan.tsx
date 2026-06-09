@@ -11,9 +11,15 @@ import { C } from '../../src/theme';
 
 export default function JobBoardScreen() {
   const [active, setActive] = useState('Semua');
+  const [query, setQuery] = useState('');
   const [headerH, setHeaderH] = useState(200); // estimasi awal; dikoreksi onLayout
   const filters = ['Semua', ...jobTypes];
-  const list = active === 'Semua' ? jobs : jobs.filter((j) => j.type === active);
+  const q = query.trim().toLowerCase();
+  const list = jobs.filter((j) => {
+    const okType = active === 'Semua' || j.type === active;
+    const okQuery = !q || [j.title, j.company, ...j.tags].join(' ').toLowerCase().includes(q);
+    return okType && okQuery;
+  });
 
   return (
     <View className="flex-1 bg-surface-container-low">
@@ -49,6 +55,8 @@ export default function JobBoardScreen() {
         <View className="flex-row items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-md">
           <Icon name="search" size={20} color={C.onSurfaceVariant} />
           <TextInput
+            value={query}
+            onChangeText={setQuery}
             placeholder="Posisi atau kata kunci"
             placeholderTextColor={C.onSurfaceVariant}
             className="flex-1 py-3 text-body-md text-on-surface"

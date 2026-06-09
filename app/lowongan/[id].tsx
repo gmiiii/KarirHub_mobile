@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '../../src/components/AppHeader';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { Badge, VerifiedBadge, Placeholder, Button } from '../../src/components/ui';
+import { useToast } from '../../src/components/Toast';
 import { getJob } from '../../src/data';
 import { C } from '../../src/theme';
 
@@ -11,6 +13,8 @@ export default function JobDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const toast = useToast();
+  const [saved, setSaved] = useState(false);
   const job = getJob(String(id));
 
   if (!job) {
@@ -66,7 +70,16 @@ export default function JobDetail() {
 
       {/* Bottom action bar */}
       <View className="flex-row items-center gap-md border-t border-outline-variant bg-surface px-md py-3" style={{ paddingBottom: insets.bottom + 12 }}>
-        <Button label="Simpan" variant="secondary" icon="bookmark" onPress={() => {}} />
+        <Button
+          label={saved ? 'Tersimpan' : 'Simpan'}
+          variant="secondary"
+          icon={saved ? 'bookmark' : 'bookmark-border'}
+          onPress={() => {
+            const next = !saved;
+            setSaved(next);
+            toast(next ? 'Lowongan disimpan' : 'Lowongan dihapus dari simpanan');
+          }}
+        />
         <View className="flex-1">
           <Button label="Lamar Sekarang" icon="send" fullWidth onPress={() => router.push('/checkout')} />
         </View>
