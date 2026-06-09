@@ -1,4 +1,4 @@
-import { Pressable, Text, View, type PressableProps } from 'react-native';
+import { Pressable, Text, View, Image, type PressableProps, type ImageSourcePropType } from 'react-native';
 import { Icon, type MaterialIconName } from './Icon';
 import { C } from '../theme';
 
@@ -150,7 +150,27 @@ export function Placeholder({
   );
 }
 
-export function AvatarInitial({ name, className = '', textClass = 'text-label-md' }: { name: string; className?: string; textClass?: string }) {
+export function AvatarInitial({
+  name,
+  className = '',
+  textClass = 'text-label-md',
+  source,
+}: {
+  name: string;
+  className?: string;
+  textClass?: string;
+  source?: ImageSourcePropType;
+}) {
+  // Bila ada foto, tampilkan gambar; jika tidak, fallback ke inisial.
+  // Ukuran diatur lewat View pembungkus karena class w/h tidak diterapkan ke Image.
+  if (source) {
+    return (
+      <View className={`overflow-hidden rounded-full bg-surface-container-highest ${className}`}>
+        <Image source={source} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
+      </View>
+    );
+  }
+
   const initials = name
     .split(' ')
     .slice(0, 2)

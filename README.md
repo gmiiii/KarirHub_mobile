@@ -25,7 +25,7 @@ npm run typecheck    # tsc --noEmit (terverifikasi: 0 error)
 
 Tab: **Beranda · Jasa · Lowongan · Pesanan · Profil**. Plus stack: detail lowongan/jasa,
 checkout, **flow pembayaran** (pilih metode → QRIS / Virtual Account → berhasil / gagal),
-AI Foto CV, talenta, dashboard rekruter/seller, langganan, transaksi.
+Buat CV dengan AI, talenta, dashboard rekruter/seller, langganan, transaksi.
 
 ## Design token
 

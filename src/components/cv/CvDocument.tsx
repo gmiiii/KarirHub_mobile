@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Icon, type MaterialIconName } from '../Icon';
 import { C } from '../../theme';
 import type { CvData } from '../../data';
@@ -9,9 +9,16 @@ export function CvDocument({ cv }: { cv: CvData }) {
     <View className="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
       {/* Panel biru (isi sidebar template B) */}
       <View className="gap-md bg-primary px-lg py-lg">
-        <View>
-          <Text className="text-headline-md font-bold text-on-primary">{cv.name}</Text>
-          <Text className="text-body-md text-on-primary opacity-80">{cv.headline}</Text>
+        <View className="flex-row items-center gap-md">
+          <Image
+            source={cv.photo}
+            resizeMode="cover"
+            style={{ width: 64, height: 84, borderRadius: 8 }}
+          />
+          <View className="flex-1">
+            <Text className="text-headline-md font-bold text-on-primary">{cv.name}</Text>
+            <Text className="text-body-md text-on-primary opacity-80">{cv.headline}</Text>
+          </View>
         </View>
 
         <View className="gap-1.5">

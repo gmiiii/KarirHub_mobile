@@ -6,6 +6,7 @@ import { TAB_BAR_SPACE } from '../../src/components/FloatingTabBar';
 import { Icon, type MaterialIconName } from '../../src/components/Icon';
 import { AvatarInitial, VerifiedBadge, Badge, Button } from '../../src/components/ui';
 import { RevealScrollView, Reveal } from '../../src/components/motion';
+import { RINA_PHOTO } from '../../src/data';
 import { C } from '../../src/theme';
 
 const menus: { icon: MaterialIconName; label: string; href: string }[] = [
@@ -26,7 +27,7 @@ export default function ProfilScreen() {
       <RevealScrollView contentContainerStyle={{ paddingBottom: TAB_BAR_SPACE }} showsVerticalScrollIndicator={false}>
         {/* Header profil - instan */}
         <View className="items-center gap-2 bg-primary-container px-lg pb-lg pt-lg">
-          <AvatarInitial name="Rina Hapsari" className="h-20 w-20 border-4 border-surface" textClass="text-headline-md" />
+          <AvatarInitial name="Rina Hapsari" source={RINA_PHOTO} className="h-20 w-20 border-4 border-surface" textClass="text-headline-md" />
           <View className="flex-row items-center gap-2">
             <Text className="text-title-lg font-bold text-on-primary-container">Rina Hapsari</Text>
             <VerifiedBadge label="Terverifikasi" />
